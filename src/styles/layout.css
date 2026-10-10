@@ -1,0 +1,154 @@
+/*
+ * Responsive layout primitives.
+ *
+ * Mobile first. Breakpoints: md 768, lg 1024, xl 1440.
+ * Imagery runs edge to edge; text sits on a tight gutter.
+ */
+
+/* Full-width page frame with the tight commerce gutter. */
+@utility container-page {
+  --bleed: var(--gutter);
+  width: 100%;
+  padding-inline: var(--gutter);
+}
+
+/* Centred frame, capped at 1440, with roomier gutters for reading layouts. */
+@utility container-content {
+  width: 100%;
+  max-width: var(--content-max);
+  --bleed: var(--gutter-content);
+  margin-inline: auto;
+  padding-inline: var(--gutter-content);
+}
+
+/* Cancel the parent container's gutter so a child runs edge to edge. */
+@utility full-bleed {
+  margin-inline: calc(var(--bleed, 0px) * -1);
+}
+
+/* Vertical rhythm between page sections. */
+@utility section {
+  padding-block: var(--section);
+}
+
+@utility section-tight {
+  padding-block: calc(var(--section) / 2);
+}
+
+/* 12-column grid with a narrow gap; place children with col-span-*. */
+@utility grid-page {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--grid-gap);
+}
+
+/* Product listing: 2 up on phones, 3 on tablets, 4 on desktop. */
+@utility product-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--product-columns, 2), minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+  row-gap: 2rem;
+
+  @media (min-width: 48rem) {
+    grid-template-columns: repeat(var(--product-columns, 3), minmax(0, 1fr));
+  }
+
+  @media (min-width: 64rem) {
+    grid-template-columns: repeat(var(--product-columns, 4), minmax(0, 1fr));
+    row-gap: 3rem;
+  }
+}
+
+/* Horizontal snap rail for carousels; children keep their own width. */
+@utility rail {
+  display: flex;
+  gap: var(--grid-gap);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  padding-inline: var(--gutter);
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  & > * {
+    flex: none;
+    scroll-snap-align: start;
+  }
+}
+
+/* Vertical stack with a tokenised gap: set --stack-gap or use gap-*. */
+@utility stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap, 1rem);
+}
+
+/*
+ * Media frame. Wrap an <img>/<video>/next/image `fill` in it.
+ * Portrait by default; pick a ratio with a media-* modifier.
+ */
+@utility media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: var(--media-ratio, 3 / 4);
+  background-color: var(--media);
+
+  & > :where(img, video, picture) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+@utility media-portrait {
+  --media-ratio: 3 / 4;
+}
+
+@utility media-tall {
+  --media-ratio: 2 / 3;
+}
+
+@utility media-square {
+  --media-ratio: 1;
+}
+
+@utility media-landscape {
+  --media-ratio: 3 / 2;
+}
+
+@utility media-wide {
+  --media-ratio: 16 / 9;
+}
+
+/* Art-directed hero: tall crop on phones, cinematic from lg. */
+@utility media-hero {
+  --media-ratio: 2 / 3;
+
+  @media (min-width: 64rem) {
+    --media-ratio: 16 / 9;
+  }
+}
+
+/* Slow pull-back on hover. Put on the media frame or a parent `group`. */
+@utility media-zoom {
+  & > :where(img, video, picture) {
+    transition: transform var(--motion-duration) var(--motion-ease);
+  }
+
+  @media (hover: hover) {
+    &:hover > :where(img, video, picture),
+    :where(.group):hover & > :where(img, video, picture) {
+      transform: scale(0.95);
+    }
+  }
+}
+
+/* Hairline rule. */
+@utility divider {
+  border-top: 1px solid var(--line);
+}

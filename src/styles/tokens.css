@@ -1,0 +1,118 @@
+/*
+ * Design tokens.
+ *
+ * Raw values live on :root as plain custom properties so a scope such as
+ * .theme-inverse can swap them. @theme inline then exposes them to Tailwind
+ * (bg-surface, border-line, px-gutter, ...).
+ */
+
+:root {
+  /* Colour: monochrome. Black, white, two off-whites and a hairline. */
+  --background: #ffffff;
+  --foreground: #000000;
+  --surface: #f9f9f9; /* secondary panels, drawers, footers */
+  --media: #fbfbfb; /* placeholder behind product imagery */
+  --line: rgb(0 0 0 / 0.15); /* every border and divider */
+  --muted: #767676; /* secondary text, disabled */
+  --overlay: #44494e; /* tinted glass over imagery */
+  --danger: #cc0000;
+  --success: #006633;
+  --warning: #994d00;
+  --focus: #337eff;
+
+  /* Layout */
+  --gutter: 0.75rem; /* edge-to-edge commerce layouts */
+  --gutter-content: 1rem; /* centred reading layouts */
+  --grid-gap: 0.5rem;
+  --section: 3rem; /* vertical rhythm between page sections */
+  --content-max: 90rem;
+  --header-height: 3rem;
+
+  /* Motion: one slow, decisive curve for everything. */
+  --motion-duration: 800ms;
+  --motion-ease: cubic-bezier(0.5, 0, 0, 1);
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --gutter-content: 2rem;
+    --section: 4rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --gutter: 1rem;
+    --gutter-content: 4rem;
+    --section: 6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration: 1ms;
+  }
+}
+
+/* Inverted surface: dark campaign blocks, footers, anything over imagery. */
+.theme-inverse {
+  --background: #000000;
+  --foreground: #ffffff;
+  --surface: #191919;
+  --media: #191919;
+  --line: rgb(255 255 255 / 0.5);
+  --muted: #9a9a9a;
+  --danger: #ec716b;
+  --success: #60c96d;
+  --warning: #ee692d;
+
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* The theme is chosen per section, not by the OS: `dark:` follows .theme-inverse. */
+@custom-variant dark (&:where(.theme-inverse, .theme-inverse *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-media: var(--media);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-overlay: var(--overlay);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-focus: var(--focus);
+
+  --font-sans: var(--font-geist-sans), "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-instrument-serif), "Times New Roman", serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* p-gutter, gap-grid, py-section, max-w-content, h-header ... */
+  --spacing-gutter: var(--gutter);
+  --spacing-gutter-content: var(--gutter-content);
+  --spacing-grid: var(--grid-gap);
+  --spacing-section: var(--section);
+  --spacing-header: var(--header-height);
+  --container-content: var(--content-max);
+
+  --ease-brand: var(--motion-ease);
+  --default-transition-duration: var(--motion-duration);
+  --default-transition-timing-function: var(--motion-ease);
+}
+
+@theme {
+  /* Three working breakpoints: 768 (md), 1024 (lg), 1440 (xl). */
+  --breakpoint-xl: 90rem;
+
+  /* Portrait-first imagery. */
+  --aspect-portrait: 3 / 4;
+  --aspect-tall: 2 / 3;
+  --aspect-landscape: 3 / 2;
+
+  /* Flat by default; the only shadow is for floating controls. */
+  --shadow-float: 0 8px 24px 0 rgb(0 0 0 / 0.1);
+  --blur-glass: 15px;
+}

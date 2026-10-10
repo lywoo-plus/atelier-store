@@ -1,0 +1,184 @@
+/*
+ * Type scale.
+ *
+ * One sans for everything, a serif reserved for oversized display lines.
+ * Hierarchy comes from case and weight, not from size: body copy is small and
+ * light, titles are uppercase, and only display/title sizes grow at lg.
+ *
+ *   type-display, type-display-sm        serif, uppercase, line-height <= 1
+ *   type-title-2xl ... type-title-xs     sans, uppercase
+ *   type-lead, type-body, type-body-sm   sans, sentence case, light
+ *   type-label, type-caption, type-cta   UI text
+ */
+
+@utility type-display {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 400;
+  line-height: 3.5rem;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+
+  @media (min-width: 64rem) {
+    font-size: 8.5rem;
+    line-height: 8rem;
+    letter-spacing: -0.06em;
+  }
+}
+
+@utility type-display-sm {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 400;
+  line-height: 3.5rem;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+
+  @media (min-width: 64rem) {
+    font-size: 6.5rem;
+    line-height: 6rem;
+  }
+}
+
+@utility type-title-2xl {
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 3rem;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+
+  @media (min-width: 64rem) {
+    font-size: 4rem;
+    line-height: 4rem;
+  }
+}
+
+@utility type-title-xl {
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 2.5rem;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+
+  @media (min-width: 64rem) {
+    font-size: 3rem;
+    line-height: 3rem;
+    letter-spacing: -0.05em;
+  }
+}
+
+@utility type-title-lg {
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 2rem;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+
+  @media (min-width: 64rem) {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+}
+
+@utility type-title-md {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+
+  @media (min-width: 64rem) {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
+@utility type-title-sm {
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1rem;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+
+  @media (min-width: 64rem) {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    letter-spacing: -0.03em;
+  }
+}
+
+@utility type-title-xs {
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+@utility type-lead {
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 2rem;
+  letter-spacing: -0.04em;
+
+  @media (min-width: 64rem) {
+    font-size: 2rem;
+    line-height: 3rem;
+    letter-spacing: -0.03em;
+  }
+}
+
+@utility type-body {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.5rem;
+  letter-spacing: -0.0125em;
+}
+
+@utility type-body-sm {
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1rem;
+  letter-spacing: -0.0125em;
+}
+
+/* Navigation items, product names, prices, form labels. */
+@utility type-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1rem;
+  letter-spacing: -0.0125em;
+}
+
+/* Legal lines, badges, counters. */
+@utility type-caption {
+  font-size: 0.625rem;
+  font-weight: 500;
+  line-height: 0.75rem;
+  letter-spacing: -0.0125em;
+}
+
+@utility type-cta {
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+/* Long-form copy: emphasis by weight, links by a plain underline. */
+@utility rich-text {
+  & > * + * {
+    margin-top: 1rem;
+  }
+
+  & :where(a, b, strong) {
+    font-weight: 500;
+  }
+
+  & :where(a) {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+}

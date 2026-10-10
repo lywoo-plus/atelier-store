@@ -1,0 +1,353 @@
+/*
+ * Buttons, links and the small commerce patterns built from them.
+ *
+ * Everything is square-cornered and flat. State changes are a slow wipe or
+ * sweep on one shared curve, never a colour flash.
+ */
+
+/* ---------------------------------------------------------------- Buttons
+ *
+ *   <button class="btn btn-primary">Add to bag</button>
+ *
+ * Full width on phones, intrinsic width from md. Add btn-fluid to keep it
+ * full width with the label at the start and a trailing icon at the end.
+ */
+
+@utility btn {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: var(--btn-justify, center);
+  gap: 1.5rem;
+  overflow: hidden;
+  padding: 1rem 0.75rem;
+  border-radius: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  letter-spacing: 0;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+  transition:
+    color var(--motion-duration) var(--motion-ease),
+    box-shadow var(--motion-duration) var(--motion-ease);
+
+  /* The panel that wipes up from the bottom edge on hover. */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: translateY(101%);
+    transition: transform var(--motion-duration) var(--motion-ease);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: -3px;
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    pointer-events: none;
+  }
+
+  & > svg {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  @media (min-width: 48rem) {
+    display: inline-flex;
+    width: var(--btn-width, auto);
+    min-width: 12rem;
+  }
+}
+
+@utility btn-fluid {
+  --btn-width: 100%;
+  --btn-justify: space-between;
+  text-align: start;
+}
+
+/* Solid ink. Hover wipes to the page colour and keeps a 1px outline. */
+@utility btn-primary {
+  background-color: var(--foreground);
+  box-shadow: inset 0 0 0 1px var(--foreground);
+  color: var(--background);
+
+  &::after {
+    background-color: var(--background);
+  }
+
+  &:focus-visible {
+    color: var(--foreground);
+
+    &::after {
+      transform: none;
+    }
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--foreground);
+
+      &::after {
+        transform: none;
+      }
+    }
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    background-color: var(--muted);
+    box-shadow: none;
+    color: #ffffff;
+  }
+}
+
+/* Hairline outline that firms up to full ink. */
+@utility btn-secondary {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--foreground);
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 1px var(--foreground);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      box-shadow: inset 0 0 0 1px var(--foreground);
+    }
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    box-shadow: inset 0 0 0 1px var(--muted);
+    color: var(--muted);
+  }
+}
+
+/* Tinted glass for buttons that sit on photography. */
+@utility btn-glass {
+  background-color: color-mix(in srgb, var(--overlay) 40%, transparent);
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  color: #ffffff;
+
+  &::after {
+    background-color: color-mix(in srgb, var(--overlay) 50%, transparent);
+  }
+
+  &:focus-visible::after {
+    transform: none;
+  }
+
+  @media (hover: hover) {
+    &:hover::after {
+      transform: none;
+    }
+  }
+}
+
+/* Round icon-only control: close, carousel arrows, wishlist. */
+@utility btn-icon {
+  display: inline-flex;
+  width: var(--btn-icon-size, 3rem);
+  height: var(--btn-icon-size, 3rem);
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: var(--foreground);
+  transition: transform var(--motion-duration) var(--motion-ease);
+
+  & > svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+/* Lifts a btn-icon off imagery. */
+@utility btn-icon-float {
+  background-color: var(--background);
+  box-shadow: 0 8px 24px 0 rgb(0 0 0 / 0.1);
+}
+
+/* ------------------------------------------------------------------ Links
+ *
+ * link        always underlined; the rule sweeps out and back in on hover.
+ * link-quiet  no rule at rest; it draws in from the start edge on hover.
+ *             Use for navigation, footers and product names.
+ *
+ * Inside running copy use `rich-text` instead, which gives a plain underline.
+ */
+
+@keyframes link-sweep {
+  0% {
+    background-position: 100% 100%;
+    background-size: 100% 1px;
+  }
+  50% {
+    background-position: 100% 100%;
+    background-size: 0% 1px;
+  }
+  50.01% {
+    background-position: 0% 100%;
+    background-size: 0% 1px;
+  }
+  100% {
+    background-position: 0% 100%;
+    background-size: 100% 1px;
+  }
+}
+
+@utility link {
+  display: inline;
+  padding-bottom: 0.125rem;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0% 100%;
+  background-size: 100% 1px;
+  color: inherit;
+  font-weight: 500;
+  text-decoration: none;
+
+  &:focus-visible {
+    animation: link-sweep var(--motion-duration) var(--motion-ease);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      animation: link-sweep var(--motion-duration) var(--motion-ease);
+    }
+  }
+
+  &[aria-disabled="true"] {
+    color: var(--muted);
+    pointer-events: none;
+  }
+}
+
+@utility link-quiet {
+  display: inline;
+  padding-bottom: 0.125rem;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0% 100%;
+  background-size: 0% 1px;
+  color: inherit;
+  text-decoration: none;
+  transition: background-size var(--motion-duration) var(--motion-ease);
+
+  &:focus-visible,
+  &[aria-current="page"] {
+    background-size: 100% 1px;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background-size: 100% 1px;
+    }
+  }
+}
+
+/* ------------------------------------------------------- Commerce patterns */
+
+/*
+ * Product tile: image first, then a short label block. No border, no shadow,
+ * no card chrome.
+ *
+ *   <a class="product-card group">
+ *     <div class="media media-zoom">...</div>
+ *     <div class="product-card-body">
+ *       <h3 class="type-label">Name</h3>
+ *       <p class="type-body-sm text-muted">Price</p>
+ *     </div>
+ *   </a>
+ */
+@utility product-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+@utility product-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-inline: 0.25rem;
+
+  & > :first-child {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+}
+
+/*
+ * Header bar: mark on the left and actions on the right on small screens;
+ * from lg, primary navigation left, mark centred, actions right.
+ *
+ * Sticky by default. header-bar-fixed takes it out of flow so a hero can sit
+ * underneath; header-bar-overlay makes it transparent with white ink.
+ */
+@utility header-bar {
+  position: var(--header-position, sticky);
+  top: 0;
+  inset-inline: 0;
+  z-index: 40;
+  display: flex;
+  min-height: var(--header-height);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem var(--gutter);
+  background-color: var(--header-bg, var(--background));
+  box-shadow: inset 0 -1px 0 var(--header-line, var(--line));
+  color: var(--header-ink, var(--foreground));
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  transition:
+    background-color var(--motion-duration) var(--motion-ease),
+    box-shadow var(--motion-duration) var(--motion-ease),
+    color var(--motion-duration) var(--motion-ease);
+
+  @media (min-width: 64rem) {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1.5rem;
+
+    & > :last-child {
+      justify-self: end;
+    }
+  }
+}
+
+@utility header-bar-fixed {
+  --header-position: fixed;
+}
+
+@utility header-bar-overlay {
+  --header-bg: transparent;
+  --header-line: transparent;
+  --header-ink: #ffffff;
+}
