@@ -7,10 +7,7 @@ import { ArrowIcon } from "./icons";
 
 export async function SiteFooter() {
   const categories = await getNavigation();
-  const groups = [
-    { title: "Shop", links: [...categories, { label: "New arrivals", href: "/#new-arrivals" }] },
-    ...footerNav,
-  ];
+  const groups = [{ title: "Shop", links: categories }, ...footerNav];
 
   return (
     <footer className="theme-inverse">

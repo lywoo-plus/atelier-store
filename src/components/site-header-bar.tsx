@@ -7,25 +7,23 @@ import { brand, type NavItem } from "@/data/storefront";
 
 import { AccountIcon, BagIcon, CloseIcon, MenuIcon, SearchIcon } from "./icons";
 
-/** Interactive part of the site header; rendered by `SiteHeader` with the category links. */
-export function SiteHeaderBar({ overlay = false, nav }: { overlay?: boolean; nav: NavItem[] }) {
+/** Interactive part of the site header; rendered by `SiteHeader` with the navigation links. */
+export function SiteHeaderBar({ nav }: { nav: NavItem[] }) {
   const [scrolled, setScrolled] = useState(false);
   const menu = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    if (!overlay) return;
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [overlay]);
-
-  const transparent = overlay && !scrolled;
+  }, []);
 
   return (
     <>
       <header
-        className={`header-bar ${overlay ? "header-bar-fixed" : ""} ${transparent ? "header-bar-overlay" : ""}`}
+        data-scrolled={scrolled || undefined}
+        className="header-bar over-hero:header-bar-fixed over-hero:not-data-scrolled:header-bar-overlay"
       >
         <nav aria-label="Primary" className="hidden lg:block">
           <ul className="flex gap-6 uppercase">

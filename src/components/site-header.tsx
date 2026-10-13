@@ -3,10 +3,11 @@ import { getNavigation } from "@/db/queries";
 import { SiteHeaderBar } from "./site-header-bar";
 
 /**
- * Site header. With `overlay` it floats transparent over the hero and turns
- * solid once the page has scrolled.
+ * Site header, rendered by the root layout. A page that opens with a
+ * full-bleed hero renders `<HeaderOverlay />`; the header then floats
+ * transparent over it and turns solid once the page has scrolled.
  */
-export async function SiteHeader({ overlay = false }: { overlay?: boolean }) {
+export async function SiteHeader() {
   const nav = await getNavigation();
-  return <SiteHeaderBar overlay={overlay} nav={nav} />;
+  return <SiteHeaderBar nav={nav} />;
 }

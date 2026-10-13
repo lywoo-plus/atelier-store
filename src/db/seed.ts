@@ -32,6 +32,8 @@ const shoeCare =
   "Rest on shoe trees between wears. Brush off dust and condition the leather every few months.";
 
 const categorySeed: (typeof categories.$inferInsert)[] = [
+  // Holds no products of its own: /collections/new lists the latest across the catalogue.
+  { slug: "new", name: "New arrivals" },
   {
     slug: "women",
     name: "Women",

@@ -74,6 +74,49 @@ export async function getNewArrivals(): Promise<ProductSummary[]> {
   return selectSummaries().orderBy(asc(products.id));
 }
 
+/** Most recently added products, newest first. */
+export async function getLatestProducts(count = 24): Promise<ProductSummary[]> {
+  "use cache";
+  cacheLife("hours");
+  cacheTag("catalogue");
+
+  return selectSummaries().orderBy(desc(products.createdAt), desc(products.id)).limit(count);
+}
+
+/** A category with its products, newest first; null for an unknown slug. */
+export async function getCollection(slug: string) {
+  "use cache";
+  cacheLife("hours");
+  cacheTag("catalogue");
+
+  const [category] = await db
+    .select({
+      id: categories.id,
+      slug: categories.slug,
+      name: categories.name,
+      tagline: categories.tagline,
+    })
+    .from(categories)
+    .where(eq(categories.slug, slug))
+    .limit(1);
+  if (!category) return null;
+
+  const items: ProductSummary[] = await selectSummaries()
+    .where(eq(products.categoryId, category.id))
+    .orderBy(desc(products.createdAt), desc(products.id));
+
+  return { ...category, products: items };
+}
+
+export async function getCollectionSlugs() {
+  "use cache";
+  cacheLife("hours");
+  cacheTag("catalogue");
+
+  const rows = await db.select({ slug: categories.slug }).from(categories);
+  return rows.map((row) => row.slug);
+}
+
 export async function getProductSlugs() {
   "use cache";
   cacheLife("hours");

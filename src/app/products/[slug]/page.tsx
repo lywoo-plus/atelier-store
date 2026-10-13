@@ -6,7 +6,6 @@ import { Suspense } from "react";
 
 import { ArrowIcon } from "@/components/icons";
 import { ProductCard } from "@/components/product-card";
-import { SiteHeader } from "@/components/site-header";
 import { brand, formatPrice, getStockState, type StockState } from "@/data/storefront";
 import { getProduct, getProductSlugs, getRelated } from "@/db/queries";
 
@@ -35,16 +34,12 @@ const stockDot: Record<StockState["status"], string> = {
 
 export default function ProductPage({ params }: PageProps<"/products/[slug]">) {
   return (
-    <>
-      <SiteHeader />
-
-      <main className="flex-1">
-        {/* The slug is read inside the boundary so the route keeps a URL-independent shell. */}
-        <Suspense fallback={<ProductFallback />}>
-          <ProductContent params={params} />
-        </Suspense>
-      </main>
-    </>
+    <main className="flex-1">
+      {/* The slug is read inside the boundary so the route keeps a URL-independent shell. */}
+      <Suspense fallback={<ProductFallback />}>
+        <ProductContent params={params} />
+      </Suspense>
+    </main>
   );
 }
 

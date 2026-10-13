@@ -73,6 +73,9 @@
 /* The theme is chosen per section, not by the OS: `dark:` follows .theme-inverse. */
 @custom-variant dark (&:where(.theme-inverse, .theme-inverse *));
 
+/* `over-hero:` applies while the page on screen renders <HeaderOverlay />. */
+@custom-variant over-hero (body:has([data-header="overlay"]) &);
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

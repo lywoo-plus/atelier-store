@@ -8,6 +8,13 @@
       "when": 1791630515703,
       "tag": "0000_lazy_meltdown",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791714470335,
+      "tag": "0001_useful_warpath",
+      "breakpoints": true
     }
   ]
 }
